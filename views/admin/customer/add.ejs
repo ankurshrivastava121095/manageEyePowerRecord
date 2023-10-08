@@ -1,0 +1,138 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="text-theme-2" href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a class="text-theme-2" href="/admin/customer">Customer</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Customer</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="text-theme-2">Add Customer Data</h2>
+            </div>
+            <% if(succMessage.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <%= succMessage %>
+                </div>
+            <% } %>
+            <% if(errMsg.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-circle-xmark"></i> <%= errMsg %>
+                </div>
+            <% } %>
+            <div>
+                <form action="/admin/customerInsert" method="POST">
+                    <input type="hidden" name="admin" value="<%= userData._id %>" readonly>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-image fs-4 text-theme-2"></i> <input type="file" class="form-control form-control-sm"  id="imageInput" accept="image/*" required>
+                    </div>
+                    <!-- Display the uploaded image -->
+                    <img id="uploadedImage" alt="uploaded" style="display: none; max-height: 200px; max-width: 100%;">
+                    <!-- Extracted text display -->
+                    <input type="text" name="customerData" id="textResult" class="form-control form-control-sm" style="display: none;">
+                    <!-- Progress bar -->
+                    <div class="mb-3">
+                        <progress id="progressBar" value="0" max="100" style="display: none;"></progress>
+                    </div>
+                    <!-- Convert to text button -->
+                    <button type="button" class="btn btn-sm btn-theme-2 mb-3" id="convertButton">Convert to text</button>
+                    <button type="submit" class="btn btn-sm btn-theme-2 w-100">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageInput = document.getElementById('imageInput');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const textResult = document.getElementById('textResult');
+        const convertButton = document.getElementById('convertButton');
+        const progressBar = document.getElementById('progressBar');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const imageDataUrl = reader.result;
+
+                    // Preprocess the image using a canvas
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    const image = new Image();
+                    image.onload = function () {
+                        // Resize the image to an appropriate resolution
+                        canvas.width = 1200;
+                        canvas.height = (image.height / image.width) * 1200;
+                        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                        // Convert the image to grayscale
+                        context.fillStyle = 'gray';
+                        context.fillRect(0, 0, canvas.width, canvas.height);
+                        context.globalCompositeOperation = 'multiply';
+                        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                        // Display the preprocessed image
+                        uploadedImage.src = canvas.toDataURL();
+                        uploadedImage.style.display = 'block';
+                    };
+                    image.src = imageDataUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        convertButton.addEventListener('click', async function () {
+            const image = uploadedImage;
+            if (!image.src || image.src === 'about:blank') {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            // Show the progress bar
+            progressBar.style.display = 'block';
+            progressBar.value = 0; // Initialize progress bar value
+
+            // Perform text extraction with progress monitoring
+            try {
+                const { data } = await Tesseract.recognize(
+                    image,
+                    'eng', // Specify the correct language code (e.g., English)
+                    {
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                // Update progress bar value as a percentage
+                                progressBar.value = (m.progress * 100).toFixed(2);
+                            }
+                            console.log(m);
+                        },
+                        psm: 6, // Experiment with different page segmentation modes
+                    }
+                );
+
+                // Replace line breaks with spaces
+                const formattedText = data.text.replace(/\n/g, ' ');
+
+                // Hide the progress bar
+                progressBar.style.display = 'none';
+
+                // Display the extracted text in the input field
+                textResult.style.display = 'block';
+                textResult.value = formattedText; // Set the value in the input field
+            } catch (error) {
+                console.error(error);
+                // Handle errors here
+                textResult.style.display = 'block';
+                textResult.value = 'Error: Unable to extract text.';
+                // Hide the progress bar in case of an error
+                progressBar.style.display = 'none';
+            }
+        });
+    });
+</script>
+<%- include('../components/footer.ejs') %>

@@ -1,0 +1,130 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a class="text-theme-2" href="/superAdmin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Client</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="text-theme-2">Client List</h2>
+                <a href="/superAdmin/addClient" class="btn btn-sm btn-theme-2"><i class="fa-solid fa-plus"></i> Add New</a>
+            </div>
+            <% if(succMessage.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <%= succMessage %>
+                </div>
+            <% } %>
+            <% if(errMsg.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-circle-xmark"></i> <%= errMsg %>
+                </div>
+            <% } %>
+            <div style="overflow-x: auto;">
+                <table class="table table-striped table-hover" id="myTable">
+                    <thead>
+                        <th>#</th>
+                        <th>NAME</th>
+                        <th>FIRM NAME</th>
+                        <th>PHONE</th>
+                        <th>CITY</th>
+                        <th>STATUS</th>
+                        <th>DELETED/NOT DELETED</th>
+                        <th>ACTION</th>
+                    </thead>
+                    <tbody>
+                        <%
+                        var i = 1
+                        clients.forEach((client)=>{
+                        %>
+                            <tr>
+                                <td><%= i++ %>.</td>
+                                <td><%= client.name %></td>
+                                <td><%= client.firmName %></td>
+                                <td><%= client.phone %></td>
+                                <td><%= client.city %></td>
+                                <td>
+                                    <%
+                                        if(client.status == 'active'){
+                                        %>
+                                            <i class="fa-solid fa-circle text-green"></i>
+                                        <%
+                                        } else {
+                                        %>
+                                            <i class="fa-solid fa-circle text-red"></i>
+                                        <%
+                                        }
+                                    %>
+                                </td>
+                                <td>
+                                    <%
+                                        if(client.isDeleted == 0){
+                                        %>
+                                            <span class="badge text-bg-success">NOT DELETED</span>
+                                        <%
+                                        } else {
+                                        %>
+                                            <span class="badge text-bg-danger">DELETED</span>
+                                        <%
+                                        }
+                                    %>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-theme-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            More
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <%
+                                                    if(client.isDeleted == 0){
+                                                    %>
+                                                        <a class="dropdown-item" href="/superAdmin/changeClientStatus/<%= client._id %>">Mark as Active/Inactive</a>
+                                                    <%
+                                                    }
+                                                    %>
+                                                %>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/superAdmin/editClient/<%= client._id %>">Edit</a>
+                                            </li>
+                                            <li>
+                                                <%
+                                                    if(client.isDeleted == 0){
+                                                    %>
+                                                        <a class="dropdown-item" href="/superAdmin/deleteClient/<%= client._id %>">Delete</a>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                        <a class="dropdown-item" href="/superAdmin/deleteClient/<%= client._id %>">Restore</a>
+                                                    <%
+                                                    }
+                                                %>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        <%
+                        })
+                        %>
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>NAME</th>
+                        <th>FIRM NAME</th>
+                        <th>PHONE</th>
+                        <th>CITY</th>
+                        <th>STATUS</th>
+                        <th>DELETED/NOT DELETED</th>
+                        <th>ACTION</th>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>

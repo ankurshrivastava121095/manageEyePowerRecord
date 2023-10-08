@@ -1,0 +1,25 @@
+</div>
+<div class="col-md-4"></div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+var passwordField = document.getElementById("password");
+var passwordEye = document.getElementById("password-eye");
+
+passwordEye.addEventListener("click", function() {
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        passwordEye.classList.remove("fa-eye");
+        passwordEye.classList.add("fa-eye-slash");
+    } else {
+        passwordField.type = "password";
+        passwordEye.classList.remove("fa-eye-slash");
+        passwordEye.classList.add("fa-eye");
+    }
+});
+});
+</script>
+</body>
+</html>

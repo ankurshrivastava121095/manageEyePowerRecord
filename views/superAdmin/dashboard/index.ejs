@@ -1,0 +1,61 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <h2 class="text-theme-2">Dashboard</h2>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <a href="/superAdmin/client" class="text-decoration-none text-theme-1">
+                        <div class="dashboardFourBoxes">
+                            <i class="fa-solid fa-users fs-1"></i>
+                            <div>
+                                <h6>Clients</h6>
+                                <p class="text-center"><%= counts.totalClients %></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="/superAdmin/client" class="text-decoration-none text-theme-1">
+                        <div class="dashboardFourBoxes">
+                            <i class="fa-solid fa-user-shield fs-1"></i>
+                            <div>
+                                <h6>Active Clients</h6>
+                                <p class="text-center"><%= counts.totalActiveClients %></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="/superAdmin/client" class="text-decoration-none text-theme-1">
+                        <div class="dashboardFourBoxes">
+                            <i class="fa-solid fa-user-lock fs-1"></i>
+                            <div>
+                                <h6>Inactivate Clients</h6>
+                                <p class="text-center"><%= counts.totalInactiveClients %></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="/superAdmin/client" class="text-decoration-none text-theme-1">
+                        <div class="dashboardFourBoxes">
+                            <i class="fa-solid fa-user-large-slash fs-1"></i>
+                            <div>
+                                <h6>Deleted Clients</h6>
+                                <p class="text-center"><%= counts.deletedClients %></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>

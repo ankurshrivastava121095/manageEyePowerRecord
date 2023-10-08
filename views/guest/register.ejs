@@ -1,0 +1,30 @@
+<%- include('./components/header.ejs') %>
+
+<form action="/userInsert" method="POST">
+    <h3 class="text-center mb-3">Register New User</h3>
+    <div class="mb-3 d-flex gap-2 align-items-center">
+        <i class="fa-solid fa-user fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="name" id="name" placeholder="Enter Name*">
+    </div>
+    <div class="mb-3 d-flex gap-2 align-items-center">
+        <i class="fa-solid fa-user-tie fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="userName" id="userName" placeholder="Enter Username*">
+    </div>
+    <div class="mb-3 d-flex gap-2 align-items-center">
+        <i class="fa-solid fa-phone fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="phone" id="phone" placeholder="Enter Phone*">
+    </div>
+    <div class="mb-3 d-flex gap-2 align-items-center">
+        <i class="fa-solid fa-envelope fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="email" id="email" placeholder="Enter Email*">
+    </div>
+    <div class="mb-3">
+        <div class="input-group">
+            <i class="fa-solid fa-key fs-4 text-theme-2 me-2"></i> <input type="password" class="form-control form-control-sm" name="password" id="password" placeholder="Enter Password*">
+            <div class="input-group-append">
+                <span class="input-group-text" id="show-password">
+                    <i class="fa-regular fa-eye" id="password-eye"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-sm btn-theme-2 w-100">Register</button>
+</form>
+
+<%- include('./components/footer.ejs') %>

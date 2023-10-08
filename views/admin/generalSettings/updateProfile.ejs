@@ -1,0 +1,40 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a class="text-theme-2" href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Update Profile</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="text-theme-2">Update Profile</h2>
+            </div>
+            <% if(succMessage.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <%= succMessage %>
+                </div>
+            <% } %>
+            <% if(errMsg.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-circle-xmark"></i> <%= errMsg %>
+                </div>
+            <% } %>
+            <form action="/admin/updateProfile/<%= userData._id %>" method="POST">
+                <div class="mb-3 d-flex gap-2 align-items-center">
+                    <i class="fa-solid fa-user fs-4 text-theme-2"></i> <input type="text" name="name" value="<%= userData.name %>" class="form-control form-control-sm" placeholder="Enter Name">
+                </div>
+                <div class="mb-3 d-flex gap-2 align-items-center">
+                    <i class="fa-solid fa-user-tie fs-4 text-theme-2"></i> <input type="text" name="userName" value="<%= userData.userName %>" class="form-control form-control-sm" placeholder="Enter Username">
+                </div>
+                <div class="mb-3 d-flex gap-2 align-items-center">
+                    <i class="fa-solid fa-business-time fs-4 text-theme-2"></i> <input type="text" name="firmName" value="<%= userData.firmName %>" class="form-control form-control-sm" placeholder="Enter Firm Name">
+                </div>
+                <button type="submit" class="btn btn-sm btn-theme-2 w-100">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>

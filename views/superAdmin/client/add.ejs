@@ -1,0 +1,66 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="text-theme-2" href="/superAdmin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a class="text-theme-2" href="/superAdmin/client">Client</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Client</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="text-theme-2">Add Client</h2>
+            </div>
+            <% if(succMessage.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <%= succMessage %>
+                </div>
+            <% } %>
+            <% if(errMsg.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-circle-xmark"></i> <%= errMsg %>
+                </div>
+            <% } %>
+            <div>
+                <form action="/superAdmin/clientInsert" method="POST">
+                    <input type="hidden" name="role" value="Admin" readonly>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-user fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="name" id="name" placeholder="Enter Name*">
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-user-tie fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="userName" id="userName" placeholder="Enter Username*">
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-phone fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="phone" id="phone" placeholder="Enter Phone*">
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-business-time fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="firmName" id="firmName" placeholder="Enter Firm Name*">
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-envelope fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="email" id="email" placeholder="Enter Email*">
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <i class="fa-solid fa-key fs-4 text-theme-2 me-2"></i> <input type="password" class="form-control form-control-sm" name="password" id="password" placeholder="Enter Password*">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="show-password">
+                                    <i class="fa-regular fa-eye" id="password-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-city fs-4 text-theme-2"></i> <input type="text" class="form-control form-control-sm" name="city" id="city" placeholder="Enter City*">
+                    </div>
+                    <div class="mb-3 d-flex gap-2 align-items-center">
+                        <i class="fa-solid fa-location-dot fs-4 text-theme-2"></i> <textarea rows="6" class="form-control form-control-sm" name="address" id="address" placeholder="Enter Address*"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-theme-2 w-100">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>

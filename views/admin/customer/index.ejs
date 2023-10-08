@@ -1,0 +1,99 @@
+<%- include('../components/header.ejs') %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a class="text-theme-2" href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Customer</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="contentBase">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="text-theme-2">Customer List</h2>
+                <a href="/admin/addCustomer" class="btn btn-sm btn-theme-2"><i class="fa-solid fa-plus"></i> Add New</a>
+            </div>
+            <% if(succMessage.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa-solid fa-circle-check"></i> <%= succMessage %>
+                </div>
+            <% } %>
+            <% if(errMsg.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-circle-xmark"></i> <%= errMsg %>
+                </div>
+            <% } %>
+            <div style="overflow-x: auto;">
+                <table class="table table-striped table-hover" id="myTable">
+                    <thead>
+                        <th>#</th>
+                        <th>CUSTOMER DATA</th>
+                        <th>DELETED/NOT DELETED</th>
+                        <th>ACTION</th>
+                    </thead>
+                    <tbody>
+                        <%
+                        var i = 1
+                        customers.forEach((customer)=>{
+                        %>
+                            <tr>
+                                <td><%= i++ %>.</td>
+                                <td><%= customer.customerData %></td>
+                                <td>
+                                    <%
+                                        if(customer.isDeleted == 0){
+                                        %>
+                                            <span class="badge text-bg-success">NOT DELETED</span>
+                                        <%
+                                        } else {
+                                        %>
+                                            <span class="badge text-bg-danger">DELETED</span>
+                                        <%
+                                        }
+                                    %>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-theme-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            More
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="/admin/editCustomer/<%= customer._id %>">Edit</a>
+                                            </li>
+                                            <li>
+                                                <%
+                                                    if(customer.isDeleted == 0){
+                                                    %>
+                                                        <a class="dropdown-item" href="/admin/deleteCustomer/<%= customer._id %>">Delete Temporary</a>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                        <a class="dropdown-item" href="/admin/deleteCustomer/<%= customer._id %>">Restore</a>
+                                                    <%
+                                                    }
+                                                %>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/admin/deleteCustomerPermanently/<%= customer._id %>">Delete Permanently</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        <%
+                        })
+                        %>
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>CUSTOMER DATA</th>
+                        <th>DELETED/NOT DELETED</th>
+                        <th>ACTION</th>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>

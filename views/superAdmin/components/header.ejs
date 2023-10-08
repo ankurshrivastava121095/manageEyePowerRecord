@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- JQuery Data Table cdn -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #dbd8e3;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #5c5470;
+            font-weight: bold;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #000;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .openbtn {
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #dbd8e3;
+            color: #5c5470;
+            padding: 3px 10px;
+            border: 1px solid #dbd8e3;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        #main {
+            transition: margin-left 0.5s;
+            /* padding: 16px; */
+            margin-left: 250px;
+        }
+
+        .headerSection {
+            background: #5c5470;
+            padding: 10px;
+        }
+
+        .contentBase {
+            background: #dbd8e3;
+            padding: 20px;
+            border-radius: 12px;
+            border-top: 6px solid #5c5470;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
+        /*  */
+        *{
+            font-family: Consolas;
+        }
+        .bg-theme-1 {
+            background-color: #dbd8e3;
+        }
+
+        .bg-theme-2 {
+            background-color: #5c5470;
+        }
+
+        .bg-theme-3 {
+            background-color: #352f44;
+        }
+
+        .text-theme-1 {
+            color: #dbd8e3;
+        }
+
+        .text-theme-2 {
+            color: #5c5470;
+        }
+
+        .text-theme-3 {
+            color: #352f44;
+        }
+
+        .btn-theme-1 {
+            background-color: #dbd8e3;
+            border: 1px solid #dbd8e3;
+            color: #5c5470;
+        }
+
+        .btn-theme-1:hover {
+            color: #dbd8e3;
+            border: 1px solid #dbd8e3;
+            background-color: #5c5470;
+        }
+
+        .btn-theme-2 {
+            background-color: #5c5470;
+            border: 1px solid #5c5470;
+            color: #dbd8e3;
+        }
+
+        .btn-theme-2:hover {
+            color: #5c5470;
+            border: 1px solid #5c5470;
+            background-color: #dbd8e3;
+        }
+
+        .centerStyle {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .formBox {
+            border: 5px solid #5c5470;
+            padding: 30px;
+            border-radius: 0 35px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        }
+
+        #show-password {
+            cursor: pointer;
+        }
+
+        #password-eye {
+            cursor: pointer;
+        }
+
+        .form-control:focus {
+            border: 1px solid #5c5470 !important;
+            box-shadow: none !important;
+        }
+
+        .dashboardFourBoxes {
+            background: #5c5470;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .headerActionButton {
+            background-color: transparent;
+            color: #dbd8e3;
+            border: none;
+            outline: none;
+        }
+
+        .text-green {
+            color: #00db00;
+        }
+
+        .text-red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="mySidebar" class="sidebar">
+        <h2 class="text-center"><%= userData.firmName %></h2>
+        <hr>
+        <a href="/superAdmin/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+        <a href="/superAdmin/client"><i class="fa-solid fa-users"></i> Client</a>
+    </div>
+
+    <div id="main">
+        <div class="headerSection d-flex align-items-center justify-content-between">
+            <div>
+                <button class="openbtn" style="display: none;" id="openBtn" onclick="openNav()">☰</button>
+                <button class="openbtn" id="closeBtn" onclick="closeNav()">☰</button>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle headerActionButton fs-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Welcome <%= userData.name %>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Update Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Change Password</a></li>
+                  <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="p-4">
